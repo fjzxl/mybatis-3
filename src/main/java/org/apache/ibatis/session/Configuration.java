@@ -612,6 +612,9 @@ public class Configuration {
     if (cacheEnabled) {
       executor = new CachingExecutor(executor);
     }
+    /**
+     * 插件
+     */
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }
