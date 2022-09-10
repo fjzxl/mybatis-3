@@ -27,6 +27,14 @@ public class ExceptionUtil {
     // Prevent Instantiation
   }
 
+  /**
+   * 拆解java.lang.reflect.InvocationTargetException和java.lang.reflect.UndeclaredThrowableException异常，得到真正异常
+   * InvocationTargetException是反射操作时统一抛出的异常
+   * 真正的异常保存在内部的target属性中
+   * 这样使得反射操作的异常有一个同一的界面，方便异常管理
+   * @param wrapped
+   * @return
+   */
   public static Throwable unwrapThrowable(Throwable wrapped) {
     Throwable unwrapped = wrapped;
     while (true) {

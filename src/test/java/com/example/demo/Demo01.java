@@ -6,6 +6,7 @@ import org.apache.ibatis.builder.xml.XMLMapperEntityResolver;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.parsing.XPathParser;
+import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -36,7 +37,7 @@ public class Demo01 {
         Student student02 = studentMapper.selectStudent(2);
         System.out.println(student02);
 
-        student02 = studentMapper.selectStudent(2);
+        student02 = studentMapper.selectStudentByUserName("李四");
         System.out.println(student02);
       }
     } catch (IOException e) {

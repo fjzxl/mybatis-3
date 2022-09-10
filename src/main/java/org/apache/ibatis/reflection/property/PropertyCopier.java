@@ -31,6 +31,8 @@ public final class PropertyCopier {
 
   /**
    * 对象属性复制
+   * 无法完成继承得来的属性
+   * 因为getDeclaredFields不包含继承属性
    * @param type 对象的类型
    * @param sourceBean  提供属性的源对象
    * @param destinationBean 写入新值的对象

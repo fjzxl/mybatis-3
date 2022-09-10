@@ -18,6 +18,15 @@ package org.apache.ibatis.reflection.property;
 import java.util.Iterator;
 
 /**
+ * 属性切分器
+ * 根据.和[进行切分
+ * eg.
+ * 传入 user[id].name
+ * 得到
+ * name = user
+ * indexdName = user[id]
+ * index = id
+ * children = name
  * @author Clinton Begin
  */
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
@@ -72,5 +81,15 @@ public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
   @Override
   public void remove() {
     throw new UnsupportedOperationException("Remove is not supported, as it has no meaning in the context of properties.");
+  }
+
+  @Override
+  public String toString() {
+    return "PropertyTokenizer{" +
+      "name='" + name + '\'' +
+      ", indexedName='" + indexedName + '\'' +
+      ", index='" + index + '\'' +
+      ", children='" + children + '\'' +
+      '}';
   }
 }

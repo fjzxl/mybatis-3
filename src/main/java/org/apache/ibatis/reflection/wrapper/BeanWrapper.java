@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2017 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2017 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.reflection.wrapper;
 
@@ -40,6 +40,11 @@ public class BeanWrapper extends BaseWrapper {
     this.metaClass = MetaClass.forClass(object.getClass(), metaObject.getReflectorFactory());
   }
 
+  /**
+   * 获得被包装对象某个属性的值
+   * @param prop
+   * @return
+   */
   @Override
   public Object get(PropertyTokenizer prop) {
     if (prop.getIndex() != null) {
@@ -50,6 +55,11 @@ public class BeanWrapper extends BaseWrapper {
     }
   }
 
+  /**
+   * 设置被包装对象的某个属性的值
+   * @param prop
+   * @param value
+   */
   @Override
   public void set(PropertyTokenizer prop, Object value) {
     if (prop.getIndex() != null) {
@@ -60,21 +70,40 @@ public class BeanWrapper extends BaseWrapper {
     }
   }
 
+  /**
+   * 找到对应的属性
+   * @param name
+   * @param useCamelCaseMapping
+   * @return
+   */
   @Override
   public String findProperty(String name, boolean useCamelCaseMapping) {
     return metaClass.findProperty(name, useCamelCaseMapping);
   }
 
+  /**
+   * 获得所有属性get方法名称
+   * @return
+   */
   @Override
   public String[] getGetterNames() {
     return metaClass.getGetterNames();
   }
 
+  /**
+   * 获得所有属性set方法名称
+   * @return
+   */
   @Override
   public String[] getSetterNames() {
     return metaClass.getSetterNames();
   }
 
+  /**
+   * 获得指定属性set方法的类型
+   * @param name
+   * @return
+   */
   @Override
   public Class<?> getSetterType(String name) {
     PropertyTokenizer prop = new PropertyTokenizer(name);
@@ -90,6 +119,11 @@ public class BeanWrapper extends BaseWrapper {
     }
   }
 
+  /**
+   * 获得指定属性get方法的类型
+   * @param name
+   * @return
+   */
   @Override
   public Class<?> getGetterType(String name) {
     PropertyTokenizer prop = new PropertyTokenizer(name);
@@ -105,6 +139,11 @@ public class BeanWrapper extends BaseWrapper {
     }
   }
 
+  /**
+   * 判断某个属性是否有对应的set方法
+   * @param name
+   * @return
+   */
   @Override
   public boolean hasSetter(String name) {
     PropertyTokenizer prop = new PropertyTokenizer(name);
@@ -124,6 +163,11 @@ public class BeanWrapper extends BaseWrapper {
     }
   }
 
+  /**
+   * 判断某个属性是否有对应的get方法
+   * @param name
+   * @return
+   */
   @Override
   public boolean hasGetter(String name) {
     PropertyTokenizer prop = new PropertyTokenizer(name);
@@ -143,6 +187,13 @@ public class BeanWrapper extends BaseWrapper {
     }
   }
 
+  /**
+   * 实例化某个属性值
+   * @param name
+   * @param prop
+   * @param objectFactory
+   * @return
+   */
   @Override
   public MetaObject instantiatePropertyValue(String name, PropertyTokenizer prop, ObjectFactory objectFactory) {
     MetaObject metaValue;
@@ -191,7 +242,6 @@ public class BeanWrapper extends BaseWrapper {
     return false;
   }
 
-  @Override
   public void add(Object element) {
     throw new UnsupportedOperationException();
   }

@@ -1,17 +1,17 @@
 /**
- *    Copyright 2009-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2009-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.ibatis.reflection;
 
@@ -47,25 +47,45 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
  */
 public class Reflector {
 
+  // 要被反射解析的类
   private final Class<?> type;
+
+  // 能够读的属性列表，即有get方法的属性列表
   private final String[] readablePropertyNames;
+
+  // 能够写的属性列表，即有set方法的属性列表
   private final String[] writablePropertyNames;
+
+  // set方法映射表，键为属性名，值为对应set方法
   private final Map<String, Invoker> setMethods = new HashMap<>();
+
+  // get方法映射表，键为属性名，值为对应get方法
   private final Map<String, Invoker> getMethods = new HashMap<>();
+
+  // set方法输出类型，键为属性名，值为对应属性的set方法的类型（实际为set方法的第一个参数的类型）
   private final Map<String, Class<?>> setTypes = new HashMap<>();
+
+  // get方法输出类型，键为属性名，值为对应属性的get方法的类型（实际为get方法的第一个参数的类型）
   private final Map<String, Class<?>> getTypes = new HashMap<>();
+
+  // 默认构造函数
   private Constructor<?> defaultConstructor;
 
+  // 大小写无关的属性映射表。键为属性名全大写值，值为属性名
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
+  /**
+   * @param clazz 需要被反射处理的目标类
+   */
   public Reflector(Class<?> clazz) {
+    //要被解析的类
     type = clazz;
-    addDefaultConstructor(clazz);
-    addGetMethods(clazz);
-    addSetMethods(clazz);
-    addFields(clazz);
-    readablePropertyNames = getMethods.keySet().toArray(new String[0]);
-    writablePropertyNames = setMethods.keySet().toArray(new String[0]);
+    addDefaultConstructor(clazz);   // 设置默认构造器属性
+    addGetMethods(clazz);   // 解析所有的getter
+    addSetMethods(clazz);   // 解析所有的setter
+    addFields(clazz);       // 解析所有的属性
+    readablePropertyNames = getMethods.keySet().toArray(new String[0]);   // 设定可读属性
+    writablePropertyNames = setMethods.keySet().toArray(new String[0]);   // 设定可写属性
     for (String propName : readablePropertyNames) {
       caseInsensitivePropertyMap.put(propName.toUpperCase(Locale.ENGLISH), propName);
     }
@@ -102,9 +122,9 @@ public class Reflector {
         if (candidateType.equals(winnerType)) {
           if (!boolean.class.equals(candidateType)) {
             throw new ReflectionException(
-                "Illegal overloaded getter method with ambiguous type for property "
-                    + propName + " in class " + winner.getDeclaringClass()
-                    + ". This breaks the JavaBeans specification and can cause unpredictable results.");
+              "Illegal overloaded getter method with ambiguous type for property "
+                + propName + " in class " + winner.getDeclaringClass()
+                + ". This breaks the JavaBeans specification and can cause unpredictable results.");
           } else if (candidate.getName().startsWith("is")) {
             winner = candidate;
           }
@@ -114,9 +134,9 @@ public class Reflector {
           winner = candidate;
         } else {
           throw new ReflectionException(
-              "Illegal overloaded getter method with ambiguous type for property "
-                  + propName + " in class " + winner.getDeclaringClass()
-                  + ". This breaks the JavaBeans specification and can cause unpredictable results.");
+            "Illegal overloaded getter method with ambiguous type for property "
+              + propName + " in class " + winner.getDeclaringClass()
+              + ". This breaks the JavaBeans specification and can cause unpredictable results.");
         }
       }
       addGetMethod(propName, winner);
@@ -186,8 +206,8 @@ public class Reflector {
       return setter1;
     }
     throw new ReflectionException("Ambiguous setters defined for property '" + property + "' in class '"
-        + setter2.getDeclaringClass() + "' with types '" + paramType1.getName() + "' and '"
-        + paramType2.getName() + "'.");
+      + setter2.getDeclaringClass() + "' with types '" + paramType1.getName() + "' and '"
+      + paramType2.getName() + "'.");
   }
 
   private void addSetMethod(String name, Method method) {

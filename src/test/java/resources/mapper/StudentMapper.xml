@@ -6,4 +6,8 @@
   <select id="selectStudent" resultType="com.example.demo.dao.Student">
     select * from student where id = #{id}
   </select>
+
+  <select id="selectStudentByUserName" resultType="com.example.demo.dao.Student">
+    SELECT * FROM student WHERE name = #{username}
+  </select>
 </mapper>
